@@ -1,5 +1,4 @@
 
--- Virtuálna klávesnica pre Lua
 local keyboard = {
     {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'},
     {'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'},
@@ -14,9 +13,8 @@ local current_row, current_col = 1, 1
 local search_mode = false
 local selected_game_index = 1
 
--- Funkcia na vykreslenie klávesnice
 local function draw_keyboard()
-    print("Klávesnica:")
+    print("Keyboard:")
     for i, row in ipairs(keyboard) do
         for j, key in ipairs(row) do
             if i == current_row and j == current_col then
@@ -27,12 +25,12 @@ local function draw_keyboard()
         end
         print()
     end
-    print("\nVstup: " .. input_text)
+    print("\nEntry: " .. input_text)
 end
 
 -- Funkcia na vykreslenie výsledkov vyhľadávania
 local function draw_search_results(matching_games)
-    print("\nVýsledky vyhľadávania:")
+    print("\nSearch Results:")
     for i, game in ipairs(matching_games) do
         if i == selected_game_index then
             print("> " .. game)  -- Zvýrazni aktuálnu hru
@@ -42,7 +40,6 @@ local function draw_search_results(matching_games)
     end
 end
 
--- Hlavná slučka pre klávesnicu
 local function main()
     while true do
         if not search_mode then
@@ -58,9 +55,9 @@ local function main()
             draw_search_results(matching_games)
 
             if #matching_games > 0 then
-                print("\nPouži šípky na výber hry, A na potvrdenie, B na návrat.")
+                print("\nApply arrows on choice game, A for confirm , B for back.")
             else
-                print("\nŽiadne hry nenájdené.")
+                print("\nNo games found.")
             end
         end
 
@@ -85,7 +82,7 @@ local function main()
         elseif search_mode and key == "down" and selected_game_index < #matching_games then
             selected_game_index = selected_game_index + 1
         elseif search_mode and key == "a" then
-            print("\nVybral si hru: " .. matching_games[selected_game_index])
+            print("\nYou selected game: " .. matching_games[selected_game_index])
             break
         elseif search_mode and key == "b" then
             search_mode = false
@@ -95,18 +92,16 @@ local function main()
     end
 end
 
--- Definovanie menu položiek
 menu_items = {
     { name = "Games", action = function() print("Loading Games...") end },
     { name = "RetroArch", action = function() print("Loading RetroArch...") end },
     { name = "Settings", action = function() print("Loading Settings...") end },
-    { name = "Search", action = main } -- Volá funkciu pre spustenie klávesnice
+    { name = "Search", action = main } 
 }
 
--- Funkcia na načítanie hlavného menu
 function load_main_menu()
     while true do
-        print("Hlavné menu:")
+        print("Main menu:")
         for i, item in ipairs(menu_items) do
             print(i .. ". " .. item.name)
         end
@@ -116,10 +111,8 @@ function load_main_menu()
         if choice and menu_items[choice] then
             menu_items[choice].action()
         else
-            print("Neplatná voľba, prosím, zadaj správne číslo.")
+            print("No service with this number detected.")
         end
     end
 end
-
--- Spustenie hlavného menu pri štarte
 load_main_menu()
